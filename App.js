@@ -5,9 +5,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-/* This is where we will import more screens */
+// /* This is where we will import more screens */
 import HomeScreen from './components/HomeScreen';
-import NoteScreen from './components/NoteScreen'
+//import NoteScreen from './components/NoteScreen'
 
 
 const Stack = createStackNavigator(); //Create a stack navigator
@@ -18,7 +18,7 @@ export default function App() {
       <StatusBar style="auto" />
       <Stack.Navigator initialRouteName = "Home">
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="NoteScreen" component={NoteScreen} />
+        {/* <Stack.Screen name="NoteScreen" component={NoteScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
