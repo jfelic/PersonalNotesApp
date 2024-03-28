@@ -33,15 +33,15 @@ const NoteScreen = (props) => {
                 <Text style={styles.buttonText}>Save Note</Text>
             </TouchableOpacity>
         </View>
-    )
+    ) 
 }
 
 const styles = StyleSheet.create ({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
+        // flex: 1,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // padding: 10,
     },
     titleInput: {
         margin: 10,
