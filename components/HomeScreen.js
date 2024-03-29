@@ -1,19 +1,15 @@
 // components/HomeScreen.js
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import NotesContext from '../contexts/NotesContext';
+
 
 // HomeScreen component
 const HomeScreen = props => {
 
   // Placeholder data for notes
-  const notes = [
-    {id: '1', title: 'First Note', content: 'This is the first note content.'},
-    {id: '2', title: 'Second Note', content: 'This is the second note content.'},
-    {id: '3', title: 'Third Note', content: 'This is the third note content.'},
-    {id: '4', title: 'Fourth Note', content: 'This is the fourth note content.'},
-    //add more items as needed
-  ];
+  const { notes } = useContext(NotesContext);
 
   //Render UI components
   return(
@@ -21,12 +17,12 @@ const HomeScreen = props => {
       <FlatList
       data={notes} //Data source for the list
       keyExtractor={item => item.id} //Unique key for each item
-      renderItem={( obj ) => (
+      renderItem={( {item} ) => (
         <TouchableOpacity
           style={styles.noteItem}
-          onPress={() => props.navigation.navigate('NoteScreen', { noteId: obj.item.id })}
+          onPress={() => props.navigation.navigate('NoteScreen', { note: item })}
         >
-          <Text style={styles.noteTitle}>{ obj.item.title }</Text>
+          <Text style={styles.noteTitle}>{ item.title }</Text>
         </TouchableOpacity>
       )}
     />
@@ -64,8 +60,8 @@ const styles = StyleSheet.create({
     fontSize: 18, // Font size for the note title
   },
   button: {
-    position: 'absolue',
-    left: 120,
+    position: 'absolute',
+    right: 20,
     bottom: 40,
     backgroundColor: 'green',
     width: 70,

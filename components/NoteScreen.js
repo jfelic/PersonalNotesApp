@@ -1,16 +1,35 @@
 // components/NoteScreen.js
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import NotesContext from '../contexts/NotesContext';
 
-const NoteScreen = (props) => {
-    const [title, setTitle] = useState();
-    const [content, setContent] = useState();
+
+const NoteScreen = ({ route, navigation }) => {
+    const { note } = route.params || {};
+
+    const [title, setTitle] = useState(note?.title || '');
+    const [content, setContent] = useState(note?.content || '');
+    const { notes, setNotes } = useContext(NotesContext);//access the addNote function from context
 
     const saveNote = () => {
-        //logic to save the note will go here
-        //I want to display the new note on the HomeScreen once it is 'saved'
+        if(note && note.id) {
+            //we're editing an existing note
+            const updatedNotes = notes.map(n => {
+                if (n.id === note.id) {
+                    return {...n, title, content};
+                }
+                return n;
+            });
+            setNotes(updatedNotes);
+        } else {
+            //we're adding a new note
+            const newNoteId = Date.now().toString();
+            const newNote = { id: newNoteId, title, content };
+            setNotes(prevNotes => [...prevNotes, newNote]);
+        }
+        navigation.goBack();
     }
 
     return (
@@ -29,7 +48,7 @@ const NoteScreen = (props) => {
                 multiline
             />
             {/* <Button title="Save Note" onPress={saveNote} /> */}
-            <TouchableOpacity style={styles.button} onPress= {() => {saveNote}}>
+            <TouchableOpacity style={styles.button} onPress= {saveNote}>
                 <Text style={styles.buttonText}>Save Note</Text>
             </TouchableOpacity>
         </View>
@@ -38,10 +57,10 @@ const NoteScreen = (props) => {
 
 const styles = StyleSheet.create ({
     container: {
-        // flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // padding: 10,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
     },
     titleInput: {
         margin: 10,
